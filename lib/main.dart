@@ -1,3 +1,4 @@
+import 'package:faturas/payment-options/view/screens/payment_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -29,6 +30,9 @@ class Faturas extends StatelessWidget {
       home: const Home(),
       theme: ThemeData(
           textTheme: defaultTextStyle,
+          buttonBarTheme: const ButtonBarThemeData(
+            alignment: MainAxisAlignment.spaceBetween,
+          )
       ),
     );
   }
@@ -80,7 +84,9 @@ class Home extends StatelessWidget {
                         verticalDirection: VerticalDirection.down,
                         children: [
                           Text('R\$3.025,49', style: boldTextStyle),
-                          const Text('Vencimento 08/07/2019',),
+                          const Text(
+                            'Vencimento 08/07/2019',
+                          ),
                         ],
                       ),
                     ),
@@ -103,18 +109,18 @@ class Home extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Boleto Bancário'),
+                  alignment: Alignment.centerLeft,
+                  child: Text('Boleto Bancário'),
                 ),
                 const SizedBox(height: 8.0),
                 const AppButton(
-                    'Copiar código de barras do boleto',
-                    key: Key('copy_button'),
+                  text: 'Copiar código de barras do boleto',
+                  key: Key('copy_button'),
                 ),
                 const SizedBox(height: 8.0),
                 const AppButton(
-                    'Enivar boleto por email',
-                    key: Key('send_boleto_button'),
+                  text: 'Enivar boleto por email',
+                  key: Key('send_boleto_button'),
                 ),
                 const SizedBox(height: 16.0),
                 const Align(
@@ -122,9 +128,15 @@ class Home extends StatelessWidget {
                   child: Text('Cartão de Crédito'),
                 ),
                 const SizedBox(height: 8.0),
-                const AppButton(
-                    'Pagar com cartão de crédito',
-                    key: Key('pay_by_credit_card_button'),
+                AppButton(
+                  text: 'Pagar com cartão de crédito',
+                  key: Key('pay_by_credit_card_button'),
+                  onPressed: (context) => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PaymentOptions()),
+                    )
+                  },
                 ),
               ],
             ),
@@ -136,21 +148,30 @@ class Home extends StatelessWidget {
 }
 
 class AppButton extends StatelessWidget {
-  const AppButton(this.text, {Key? key}) : super(key: key);
+  const AppButton({
+    required this.text,
+    this.onPressed,
+    Key? key
+  }) : super(key: key);
 
   final String text;
+  final Function? onPressed;
+
+  void _showDialog(BuildContext context) => showDialog(
+    context: context,
+    builder: (BuildContext context) => const AlertDialog(
+      content: Text('Funcionalidade não implementada'),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     TextStyle? buttonTextStyle = Theme.of(context).textTheme.button;
+    Function? onPressed = this.onPressed;
+    onPressed ??= _showDialog;
 
     return OutlinedButton(
-        onPressed: () => showDialog(
-            context: context,
-            builder: (BuildContext context) => const AlertDialog(
-              content: Text('Funcionalidade não implementada'),
-            ),
-        ),
+        onPressed: () => onPressed!(context),
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 0),
         ),
@@ -160,7 +181,6 @@ class AppButton extends StatelessWidget {
             text,
             style: buttonTextStyle,
           ),
-        )
-    );
+        ));
   }
 }
