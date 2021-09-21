@@ -145,7 +145,12 @@ class AppButton extends StatelessWidget {
     TextStyle? buttonTextStyle = Theme.of(context).textTheme.button;
 
     return OutlinedButton(
-        onPressed: null,
+        onPressed: () => showDialog(
+            context: context,
+            builder: (BuildContext context) => const AlertDialog(
+              content: Text('Funcionalidade não implementada'),
+            ),
+        ),
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 0),
         ),

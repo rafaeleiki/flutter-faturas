@@ -22,7 +22,18 @@ void main() {
   testWidgets('Shows how much was the last invoice', (tester) async {
       await tester.pumpWidget(Faturas());
 
-      // Verify that our counter starts at 0.
       expect(find.text('R\$3.025,49'), findsOneWidget);
+  });
+
+  testWidgets('Shows dialog when a button is clicked', (tester) async {
+    await tester.pumpWidget(Faturas());
+
+    Finder buttonFinder = find.byKey(const Key('copy_button'));
+    expect(find.text('Funcionalidade não implementada'), findsNothing);
+
+    await tester.tap(buttonFinder);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Funcionalidade não implementada'), findsOneWidget);
   });
 }
