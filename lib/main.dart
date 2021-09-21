@@ -107,16 +107,25 @@ class Home extends StatelessWidget {
                     child: Text('Boleto Bancário'),
                 ),
                 const SizedBox(height: 8.0),
-                const AppButton('Copiar código de barras do boleto'),
+                const AppButton(
+                    'Copiar código de barras do boleto',
+                    key: Key('copy_button'),
+                ),
                 const SizedBox(height: 8.0),
-                const AppButton('Enivar boleto por email'),
+                const AppButton(
+                    'Enivar boleto por email',
+                    key: Key('send_boleto_button'),
+                ),
                 const SizedBox(height: 16.0),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text('Cartão de Crédito'),
                 ),
                 const SizedBox(height: 8.0),
-                const AppButton('Pagar com cartão de crédito'),
+                const AppButton(
+                    'Pagar com cartão de crédito',
+                    key: Key('pay_by_credit_card_button'),
+                ),
               ],
             ),
           ),
@@ -143,7 +152,7 @@ class AppButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            this.text,
+            text,
             style: buttonTextStyle,
           ),
         )
