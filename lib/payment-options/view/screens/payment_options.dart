@@ -1,5 +1,7 @@
+import 'package:faturas/payment-options/view_model/payment_options.dart';
 import 'package:flutter/material.dart';
 import 'package:faturas/payment-options/model/payment_option.dart';
+import 'package:intl/intl.dart';
 
 class PaymentOptionsScreen extends StatefulWidget {
   const PaymentOptionsScreen({Key? key}) : super(key: key);
@@ -11,7 +13,6 @@ class PaymentOptionsScreen extends StatefulWidget {
 }
 
 class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
-
   @override
   Widget build(BuildContext context) {
     TextStyle? boldTextStyle = Theme.of(context).textTheme.bodyText1;
@@ -87,7 +88,6 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
       ),
     );
   }
-
 }
 
 class PaymentPortionList extends StatelessWidget {
@@ -113,8 +113,8 @@ class PaymentPortionList extends StatelessWidget {
         itemBuilder: (context, index) {
           PaymentOption paymentOption = _paymentOptions[index];
           return PaymentPortionItem(
-              selectedOption: selectedOption,
-              paymentOption: paymentOption,
+            selectedOption: selectedOption,
+            paymentOption: paymentOption,
           );
         },
       ),
@@ -123,28 +123,25 @@ class PaymentPortionList extends StatelessWidget {
 }
 
 class PaymentPortionItem extends StatelessWidget {
-  const PaymentPortionItem({
-    required this.selectedOption,
-    required this.paymentOption,
-    Key? key}) : super(key: key);
+  const PaymentPortionItem(
+      {required this.selectedOption, required this.paymentOption, Key? key})
+      : super(key: key);
 
   final PaymentOption selectedOption;
   final PaymentOption paymentOption;
 
-  String _toCurrency(double value) =>
-      'R\$${value.toStringAsFixed(2).replaceAll('.', ',')}';
-
   @override
   Widget build(BuildContext context) {
-    String optionText = '${paymentOption.number} x R\$ ${_toCurrency(
-        paymentOption.value)}';
+    NumberFormat nf = NumberFormat.simpleCurrency(locale: 'pt_BR');
+    String optionText =
+        '${paymentOption.number} x ${nf.format(paymentOption.value)}';
 
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RadioListTile<PaymentOption>(
           title: Text(optionText),
-          secondary: Text(_toCurrency(paymentOption.total)),
+          secondary: Text(nf.format(paymentOption.total)),
           value: paymentOption,
           groupValue: selectedOption,
           onChanged: (PaymentOption? value) => {},
