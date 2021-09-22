@@ -32,8 +32,7 @@ class Faturas extends StatelessWidget {
           textTheme: defaultTextStyle,
           buttonBarTheme: const ButtonBarThemeData(
             alignment: MainAxisAlignment.spaceBetween,
-          )
-      ),
+          )),
     );
   }
 }
@@ -130,11 +129,12 @@ class Home extends StatelessWidget {
                 const SizedBox(height: 8.0),
                 AppButton(
                   text: 'Pagar com cartão de crédito',
-                  key: Key('pay_by_credit_card_button'),
+                  key: const Key('pay_by_credit_card_button'),
                   onPressed: (context) => {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PaymentOptions()),
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentOptionsScreen()),
                     )
                   },
                 ),
@@ -148,30 +148,26 @@ class Home extends StatelessWidget {
 }
 
 class AppButton extends StatelessWidget {
-  const AppButton({
-    required this.text,
-    this.onPressed,
-    Key? key
-  }) : super(key: key);
+  const AppButton({required this.text, this.onPressed, Key? key})
+      : super(key: key);
 
   final String text;
   final Function? onPressed;
 
   void _showDialog(BuildContext context) => showDialog(
-    context: context,
-    builder: (BuildContext context) => const AlertDialog(
-      content: Text('Funcionalidade não implementada'),
-    ),
-  );
+        context: context,
+        builder: (BuildContext context) => const AlertDialog(
+          content: Text('Funcionalidade não implementada'),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     TextStyle? buttonTextStyle = Theme.of(context).textTheme.button;
-    Function? onPressed = this.onPressed;
-    onPressed ??= _showDialog;
+    Function onPressed = this.onPressed ?? _showDialog;
 
     return OutlinedButton(
-        onPressed: () => onPressed!(context),
+        onPressed: () => onPressed(context),
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 0),
         ),

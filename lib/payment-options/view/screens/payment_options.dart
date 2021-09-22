@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:faturas/payment-options/model/payment_option.dart';
 
-class PaymentOptions extends StatelessWidget {
-  const PaymentOptions({Key? key}) : super(key: key);
+class PaymentOptionsScreen extends StatefulWidget {
+  const PaymentOptionsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PaymentOptionsScreen> createState() {
+    return _PaymentOptionsScreenState();
+  }
+}
+
+class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +36,7 @@ class PaymentOptions extends StatelessWidget {
                 style: boldTextStyle,
               ),
             ),
-            const PaymentPortionList(),
+            PaymentPortionList(),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -43,7 +52,7 @@ class PaymentOptions extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       children: const [
                         Text('Taxa da operação'),
@@ -58,16 +67,16 @@ class PaymentOptions extends StatelessWidget {
             ButtonBar(
               children: [
                 OutlinedButton(
-                    onPressed: () => {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    onPressed: () => Navigator.pop(context),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Voltar'),
                     )),
-                Text('1 de 3'),
+                const Text('1 de 3'),
                 ElevatedButton(
                   onPressed: () => {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text('Continuar'),
                   ),
                 ),
@@ -78,86 +87,67 @@ class PaymentOptions extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class PaymentPortionList extends StatelessWidget {
-  const PaymentPortionList({Key? key}) : super(key: key);
+  PaymentPortionList({Key? key}) : super(key: key);
+
+  final List<PaymentOption> _paymentOptions = [
+    PaymentOption(1, 3180.0, 3180.0),
+    PaymentOption(2, 1630.0, 3260.0),
+    PaymentOption(3, 1086.67, 3260.0),
+    PaymentOption(4, 815.0, 3260.0),
+    PaymentOption(5, 662.0, 3310.0),
+    PaymentOption(6, 551.67, 3310.0),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    const groupValue = 1;
+    PaymentOption selectedOption = _paymentOptions[0];
+    debugPrint(_paymentOptions.length.toString());
 
-    return Column(
-      children: const [
-        PaymentPortionItem(
-          portionCount: 1,
-          portionValue: 3180.0,
-          totalValue: 3180.0,
-          groupValue: groupValue,
-        ),
-        PaymentPortionItem(
-          portionCount: 2,
-          portionValue: 1630.0,
-          totalValue: 3260.0,
-          groupValue: groupValue,
-        ),
-        PaymentPortionItem(
-          portionCount: 3,
-          portionValue: 1086.67,
-          totalValue: 3260.0,
-          groupValue: groupValue,
-        ),
-        PaymentPortionItem(
-          portionCount: 4,
-          portionValue: 815.0,
-          totalValue: 3260.0,
-          groupValue: groupValue,
-        ),
-        PaymentPortionItem(
-          portionCount: 5,
-          portionValue: 662.0,
-          totalValue: 3310.0,
-          groupValue: groupValue,
-        ),
-        PaymentPortionItem(
-          portionCount: 6,
-          portionValue: 551.67,
-          totalValue: 3310.0,
-          groupValue: groupValue,
-        ),
-      ],
+    return Expanded(
+      child: ListView.builder(
+        itemCount: _paymentOptions.length,
+        itemBuilder: (context, index) {
+          PaymentOption paymentOption = _paymentOptions[index];
+          return PaymentPortionItem(
+              selectedOption: selectedOption,
+              paymentOption: paymentOption,
+          );
+        },
+      ),
     );
   }
 }
 
 class PaymentPortionItem extends StatelessWidget {
-  const PaymentPortionItem(
-      {required this.groupValue,
-      required this.portionCount,
-      required this.portionValue,
-      required this.totalValue,
-      Key? key})
-      : super(key: key);
+  const PaymentPortionItem({
+    required this.selectedOption,
+    required this.paymentOption,
+    Key? key}) : super(key: key);
 
-  final int groupValue;
-  final int portionCount;
-  final double portionValue;
-  final double totalValue;
+  final PaymentOption selectedOption;
+  final PaymentOption paymentOption;
 
   String _toCurrency(double value) =>
       'R\$${value.toStringAsFixed(2).replaceAll('.', ',')}';
 
   @override
   Widget build(BuildContext context) {
+    String optionText = '${paymentOption.number} x R\$ ${_toCurrency(
+        paymentOption.value)}';
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RadioListTile(
-          title: Text('$portionCount x R\$ ${_toCurrency(portionValue)}'),
-          secondary: Text(_toCurrency(totalValue)),
-          value: portionCount,
-          groupValue: groupValue,
-          onChanged: (int? value) => {},
+        child: RadioListTile<PaymentOption>(
+          title: Text(optionText),
+          secondary: Text(_toCurrency(paymentOption.total)),
+          value: paymentOption,
+          groupValue: selectedOption,
+          onChanged: (PaymentOption? value) => {},
         ),
       ),
     );
