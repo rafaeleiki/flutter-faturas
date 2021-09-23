@@ -49,6 +49,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
         ),
       ),
       body: Container(
+        key: const Key('payment_options_container'),
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +95,10 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
                       children: [
                         const Text('Taxa da operação'),
                         const Spacer(),
-                        Text(nf.format(operationCost)),
+                        Text(
+                          nf.format(operationCost),
+                          key: const Key('operation_cost'),
+                        ),
                       ],
                     ),
                   ],
@@ -147,6 +151,7 @@ class PaymentPortionItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RadioListTile<PaymentOption>(
+          key: Key('payment_option_${paymentOption.number}'),
           title: Text(optionText),
           secondary: Text(nf.format(paymentOption.total)),
           value: paymentOption,
