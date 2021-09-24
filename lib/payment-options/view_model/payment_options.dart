@@ -10,6 +10,10 @@ class PaymentOptionsViewModel {
 
   get paymentOptions => _paymentOptionsModel.paymentOptions;
 
-  double operationCost(PaymentOption paymentOption) =>
-      paymentOption.total - invoiceValue;
+  get operationCost => selectedOption.total - invoiceValue;
+
+  PaymentOption get selectedOption => _paymentOptionsModel.selectedOption;
+
+  set selectedOption(PaymentOption option) =>
+      _paymentOptionsModel.selectedOption = option;
 }
