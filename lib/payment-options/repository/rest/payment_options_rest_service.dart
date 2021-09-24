@@ -8,7 +8,8 @@ class PaymentOptionsRestService {
       Uri.parse('https://dreamy-allen-2e1b47.netlify.app/payment-options.json');
 
   Future<List<PaymentOption>> fetchPaymentOptions() async {
-    final Response response = await get(paymentOptionsUrl);
+    final Response response =
+        await get(paymentOptionsUrl).timeout(const Duration(seconds: 5));
 
     if (response.statusCode != 200) {
       throw Exception('Error while fetching payment options');
