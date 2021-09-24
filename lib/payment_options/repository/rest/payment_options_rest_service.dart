@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:faturas/payment-options/model/payment_option.dart';
+import 'package:faturas/shared/model/payment_option/payment_option.dart';
 import 'package:http/http.dart';
 
 class PaymentOptionsRestService {

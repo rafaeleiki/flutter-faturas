@@ -1,6 +1,6 @@
-import 'package:faturas/payment-options/model/payment_options_model.dart';
-import 'package:faturas/payment-options/view/widgets/payment_options_widget.dart';
-import 'package:faturas/payment-options/view_model/payment_options.dart';
+import 'package:faturas/shared/model/payment_option/payment_options_model.dart';
+import 'package:faturas/payment_options/view/widgets/payment_options_widget.dart';
+import 'package:faturas/payment_options/view_model/payment_options.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

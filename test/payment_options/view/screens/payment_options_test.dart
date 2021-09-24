@@ -1,7 +1,7 @@
-import 'package:faturas/payment-options/model/payment_option.dart';
-import 'package:faturas/payment-options/model/payment_options_model.dart';
-import 'package:faturas/payment-options/repository/rest/payment_options_rest_service.dart';
-import 'package:faturas/payment-options/view/screens/payment_options.dart';
+import 'package:faturas/shared/model/payment_option/payment_option.dart';
+import 'package:faturas/shared/model/payment_option/payment_options_model.dart';
+import 'package:faturas/payment_options/repository/rest/payment_options_rest_service.dart';
+import 'package:faturas/payment_options/view/screens/payment_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
