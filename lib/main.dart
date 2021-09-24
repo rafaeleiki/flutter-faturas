@@ -1,16 +1,23 @@
+import 'package:faturas/payment-options/model/payment_options_model.dart';
 import 'package:faturas/payment-options/repository/rest/payment_options_rest_service.dart';
 import 'package:faturas/payment-options/view/screens/payment_options.dart';
+import 'package:faturas/payment-options/view_model/payment_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 final getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<PaymentOptionsRestService>(
       PaymentOptionsRestService());
-  runApp(Faturas());
+
+  runApp(ChangeNotifierProvider(
+    create: (_) => PaymentOptionsModel(3180),
+    child: Faturas(),
+  ));
 }
 
 const defaultTextStyle = TextTheme(
