@@ -1,9 +1,9 @@
+import 'package:faturas/shared/model/credit_card/credit_card.dart';
+import 'package:faturas/shared/model/credit_card/user_credit_card_model.dart';
 import 'package:faturas/shared/model/payment_option/payment_options_model.dart';
 import 'package:faturas/payment_options/repository/rest/payment_options_rest_service.dart';
 import 'package:faturas/payment_options/view/screens/payment_options.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +13,11 @@ void main() {
   getIt.registerSingleton<PaymentOptionsRestService>(
       PaymentOptionsRestService());
 
-  runApp(ChangeNotifierProvider(
-    create: (_) => PaymentOptionsModel(3180),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => PaymentOptionsModel(3180)),
+      ChangeNotifierProvider(create: (_) => UserCreditCardModel(CreditCard())),
+    ],
     child: Faturas(),
   ));
 }

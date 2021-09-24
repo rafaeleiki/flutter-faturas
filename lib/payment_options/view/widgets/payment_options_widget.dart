@@ -1,3 +1,4 @@
+import 'package:faturas/credit_card_form/view/credit_card_form_screen.dart';
 import 'package:faturas/payment_options/view_model/payment_options.dart';
 import 'package:flutter/material.dart';
 import 'package:faturas/shared/model/payment_option/payment_option.dart';
@@ -12,13 +13,10 @@ class PaymentOptionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.select(
-          (PaymentOptionsViewModel vm) => vm,
+      (PaymentOptionsViewModel vm) => vm,
     );
 
-    TextStyle? boldTextStyle = Theme
-        .of(context)
-        .textTheme
-        .bodyText1;
+    TextStyle? boldTextStyle = Theme.of(context).textTheme.bodyText1;
     double operationCost = vm.operationCost;
 
     return Scaffold(
@@ -78,9 +76,9 @@ class PaymentOptionsWidget extends StatelessWidget {
                         children: [
                           const Text('Fatura de junho'),
                           const Spacer(),
-                          Text(nf.format(
-                              vm.selectedOption != null ?
-                              vm.selectedOption!.total : 0)),
+                          Text(nf.format(vm.selectedOption != null
+                              ? vm.selectedOption!.total
+                              : 0)),
                         ],
                       ),
                     ),
@@ -109,7 +107,11 @@ class PaymentOptionsWidget extends StatelessWidget {
                     )),
                 const Text('1 de 3'),
                 ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreditCardFormScreen()),
+                  ),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text('Continuar'),
@@ -125,10 +127,11 @@ class PaymentOptionsWidget extends StatelessWidget {
 }
 
 class PaymentPortionItem extends StatelessWidget {
-  const PaymentPortionItem({required this.selectedOption,
-    required this.paymentOption,
-    this.onChanged,
-    Key? key})
+  const PaymentPortionItem(
+      {required this.selectedOption,
+      required this.paymentOption,
+      this.onChanged,
+      Key? key})
       : super(key: key);
 
   final PaymentOption? selectedOption;
