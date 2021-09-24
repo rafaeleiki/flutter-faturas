@@ -6,6 +6,4 @@ class CreditCardFormViewModel {
   CreditCardFormViewModel(this._userCreditCardModel);
 
   UserCreditCardModel get userCreditCardModel => _userCreditCardModel;
-
-  set creditCardNumber(String number) => _userCreditCardModel.creditCard;
 }

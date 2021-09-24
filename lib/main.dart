@@ -5,6 +5,7 @@ import 'package:faturas/payment_options/repository/rest/payment_options_rest_ser
 import 'package:faturas/payment_options/view/screens/payment_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 final getIt = GetIt.instance;
@@ -12,6 +13,7 @@ final getIt = GetIt.instance;
 void main() {
   getIt.registerSingleton<PaymentOptionsRestService>(
       PaymentOptionsRestService());
+  getIt.registerSingleton<http.Client>(http.Client());
 
   runApp(MultiProvider(
     providers: [

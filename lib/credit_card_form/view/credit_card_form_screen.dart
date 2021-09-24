@@ -75,8 +75,6 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.select((CreditCardFormViewModel vm) => vm);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
