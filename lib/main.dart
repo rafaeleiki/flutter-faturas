@@ -1,9 +1,15 @@
+import 'package:faturas/payment-options/repository/rest/payment_options_rest_service.dart';
 import 'package:faturas/payment-options/view/screens/payment_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:get_it/get_it.dart';
+
+final getIt = GetIt.instance;
 
 void main() {
+  getIt.registerSingleton<PaymentOptionsRestService>(
+      PaymentOptionsRestService());
   runApp(Faturas());
 }
 

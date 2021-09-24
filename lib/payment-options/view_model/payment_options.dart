@@ -8,12 +8,18 @@ class PaymentOptionsViewModel {
 
   get invoiceValue => _paymentOptionsModel.invoiceValue;
 
-  get paymentOptions => _paymentOptionsModel.paymentOptions;
+  Future<List<PaymentOption>> get paymentOptions async =>
+      await _paymentOptionsModel.paymentOptions;
 
-  get operationCost => selectedOption.total - invoiceValue;
+  double get operationCost {
+    if (selectedOption == null) {
+      return 0.0;
+    }
+    return selectedOption!.total - invoiceValue;
+  }
 
-  PaymentOption get selectedOption => _paymentOptionsModel.selectedOption;
+  PaymentOption? get selectedOption => _paymentOptionsModel.selectedOption;
 
-  set selectedOption(PaymentOption option) =>
+  set selectedOption(PaymentOption? option) =>
       _paymentOptionsModel.selectedOption = option;
 }

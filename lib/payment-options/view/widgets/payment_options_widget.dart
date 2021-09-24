@@ -13,10 +13,13 @@ class PaymentOptionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.select(
-      (PaymentOptionsViewModel vm) => vm,
+          (PaymentOptionsViewModel vm) => vm,
     );
 
-    TextStyle? boldTextStyle = Theme.of(context).textTheme.bodyText1;
+    TextStyle? boldTextStyle = Theme
+        .of(context)
+        .textTheme
+        .bodyText1;
     double operationCost = vm.operationCost;
 
     return Scaffold(
@@ -41,14 +44,27 @@ class PaymentOptionsWidget extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: vm.paymentOptions.length,
-                itemBuilder: (context, index) {
-                  return PaymentPortionItem(
-                    selectedOption: vm.selectedOption,
-                    onChanged: (value) => vm.selectedOption = value,
-                    paymentOption: vm.paymentOptions[index],
-                  );
+              child: FutureBuilder<List<PaymentOption>>(
+                future: vm.paymentOptions,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final paymentOptions = snapshot.data!;
+
+                    return ListView.builder(
+                      itemCount: paymentOptions.length,
+                      itemBuilder: (context, index) {
+                        return PaymentPortionItem(
+                          selectedOption: vm.selectedOption,
+                          onChanged: (value) => vm.selectedOption = value,
+                          paymentOption: paymentOptions[index],
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),
@@ -63,7 +79,9 @@ class PaymentOptionsWidget extends StatelessWidget {
                         children: [
                           const Text('Fatura de junho'),
                           const Spacer(),
-                          Text(nf.format(vm.selectedOption.total)),
+                          Text(nf.format(
+                              vm.selectedOption != null ?
+                              vm.selectedOption!.total : 0)),
                         ],
                       ),
                     ),
@@ -108,14 +126,13 @@ class PaymentOptionsWidget extends StatelessWidget {
 }
 
 class PaymentPortionItem extends StatelessWidget {
-  const PaymentPortionItem(
-      {required this.selectedOption,
-      required this.paymentOption,
-      this.onChanged,
-      Key? key})
+  const PaymentPortionItem({required this.selectedOption,
+    required this.paymentOption,
+    this.onChanged,
+    Key? key})
       : super(key: key);
 
-  final PaymentOption selectedOption;
+  final PaymentOption? selectedOption;
   final PaymentOption paymentOption;
   final Function(PaymentOption)? onChanged;
 
